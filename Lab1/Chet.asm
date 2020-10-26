@@ -12,11 +12,12 @@ CMAIN:
     GET_DEC 4, eax
     ;mov ax, 2
     test eax, 1
-    jnz no
     jz yes
+    jnz no
 yes:
     PRINT_STRING chot
     NEWLINE
+    ret
 no:
     PRINT_STRING nechot
     NEWLINE
