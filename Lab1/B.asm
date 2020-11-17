@@ -1,50 +1,70 @@
 %include "io.inc"
 
-section .bss
-    N equ 10
-
 section .text
 global CMAIN
 CMAIN:
     mov ebp, esp; for correct debugging
-    lea esi, [x]
-    lea edi, [y]
     mov ecx, N
-    L2:
-        mov ebx, [edi]
-        test ebx, 1
-        jz yes
-        add edi, 4
-    jnz L2
-    L1:
-        lea esi, [y]
-        ;чтение из массива
+    mov edx, mas1
+    mov eax, mas2
+    
+    C1: test byte [edx], 1
+        jnz C3
+        jz C2
+        
+    C2: mov ebx, [edx]
+        mov [eax], ebx
+        add eax, 4
+        add edx, 4
+        sub ecx, 1
+        CMP ecx, 0
+        jne C1
+        je PERE
+        
+    C3: add edx, 4
+        sub ecx, 1
+        CMP ecx, 0
+        jne C1
+        je PERE
+        
+    PERE: mov ecx, N
+         mov edx, mas1
+         
+    NC1: test byte [edx], 1
+        jnz NC2
+        jz NC3
+        
+    NC2: mov ebx, [edx]
+        mov [eax], ebx
+        add eax, 4
+        add edx, 4
+        sub ecx, 1
+        CMP ecx, 0
+        jne NC1
+        je end
+        
+    NC3: add edx, 4
+        sub ecx, 1
+        CMP ecx, 0
+        jne NC1
+        je end
+    end:
+        PRINT_STRING 'Конец'
+        NEWLINE
+        PRINT_STRING 'Массив: '
         mov ecx, N
-        L3:
+        lea esi, [mas2]
+        input:
             lodsd
             PRINT_DEC   4, eax
             PRINT_CHAR  ' '
-            DEC ecx
-        jnz L3
-ret
-yes:
-    PRINT_STRING "Чётное число"
-    NEWLINE
-    mov eax, ebx
-    ;stosd
-    DEC ecx
-    jnz L2
-    call L1
-ret
-no:
-    PRINT_STRING "Нечётное число"
-    NEWLINE
-    DEC ecx
-    jnz L2
-    ret
-    
+            dec ecx
+        jnz input
+        ret
+        
+section .bss
+    N equ 7
+
 section .data
-    x dd 5,4,5,3,6
-    y times 5 dd '%d'
-    z times 5 dd '%d'
-    summ dd 1
+    mas1 dd 7, 1, 2, 3, 4, 5, 6
+    mas2 dd 0, 0, 0, 0, 0, 0, 0
