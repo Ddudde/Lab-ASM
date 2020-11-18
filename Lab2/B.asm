@@ -17,8 +17,6 @@ CMAIN:
         mov ebx,[edi]
         mul ebx
         add [sum], eax
-        adc [sum+4], edx
-        
         PRINT_DEC   4, eax
         PRINT_CHAR  ' '
         ADD edi,4
@@ -31,6 +29,6 @@ CMAIN:
     
     
 section .data
-    a: times 100 dd 000FFFFFh,5,2
-    b: times 100 dd 000AAAAAh,2,5
+    a: times 100 dd 2,5,2
+    b: times 100 dd 5,2,5
     sum: dq  0

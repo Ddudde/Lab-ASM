@@ -1,37 +1,34 @@
 %include "io.inc"
 
 section .bss
-    N equ 5
+    N equ 300
 
 section .text
 global CMAIN
 CMAIN:
+    mov ebp, esp; for correct debugging
     mov ecx, N
-    lea esi, [mass]
-    input:
-        lodsd
+    lea esi, [a]
+    lea edi, [b]
+    PRINT_STRING 'Результат перемножения:'
+    NEWLINE
+    L1:
+        lodsd;чтение элементаа массива в eax из esi
+        mov ebx,[edi]
+        mul ebx
+        add [sum], eax
         PRINT_DEC   4, eax
         PRINT_CHAR  ' '
-        add esi, 4
-    loop input
+        ADD edi,4
+        DEC ecx
+    jnz L1
     NEWLINE
-    PRINT_DEC 4, eax
+    PRINT_STRING 'Результат свертки: '
+    PRINT_DEC 4, sum
     ret
-    ;mov ecx, N
-    ;mov eax, summ
-    ;lea esi,[mass+4]
-    ;mov eax,0
-    ;input:
-    ;    mov ebx,[esi]
-    ;    add eax, ebx
-    ;    PRINT_DEC 4, ebx
-    ;    ADD esi,4
-    ;loop input
-    ;NEWLINE
-    ;PRINT_DEC 4, eax
-    ;ret
     
     
 section .data
-    mass dd 5,4,-6,3,6
-    summ    dd 0
+    a: times 100 dd 2,5,2
+    b: times 100 dd 5,2,5
+    sum: dq  0
