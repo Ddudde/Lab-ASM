@@ -3,42 +3,33 @@
 section .text
 global CMAIN
 CMAIN:
-    mov ebx, [x]
-    mov eax, [y]
+    mov eax, [x]
+    mov ebx, [y]
     mov ecx, [z]
-    mov edx, 2 ;тип
+    mov edx, 4 ;тип
     call min
+    PRINT_STRING 'ћинимальное число: '
+    PRINT_DEC 4, eax
     ret
     min:
         cmp edx, 2
-        je L8
-        jne L7
-    L7: cmp eax, ecx
-        jl L2
+        je L1
+        jne L2
+    L2: cmp eax, ebx
+        jb L3
         mov eax, ebx
-    L2: cmp eax, ecx
-        jl L3
+    L3: cmp eax, ecx
+        jb end
         mov eax, ecx
-    L3: mov [rez], eax
-        PRINT_STRING 'ћинимальное число: '
-        PRINT_DEC 4, rez
-        PRINT_STRING ', количество байт в числе: 4'
-        ret
-    L8: cmp ax, bx
-        jl L5
+    L1: cmp ax, bx
+        jb L4
         mov ax, bx
-    L5: cmp ax, cx
-        jl L6
-        mov ax, bx
-    L6: mov [rezb], ax
-        PRINT_STRING 'ћинимальное число: '
-        PRINT_DEC 2, rezb
-        PRINT_STRING ', количество байт в числе: 2'
-    ret
+    L4: cmp ax, cx
+        jb end
+        mov ax, cx
+    end: ret
 
 section .data
-    x dd 3
-    y dd -5
-    z dd 3
-    rez dd 0
-    rezb dd 0
+    x dd 5
+    y dd 10
+    z dd 3000000

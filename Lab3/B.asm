@@ -9,8 +9,8 @@ CMAIN:
     C1: mov eax,[mas1 + ebx]
         mov edx, [mas2 + ebx]
         mul edx
-        js C2
-        jns C3
+        ja C2
+        jb C3
         
     C2: not edx
         neg eax
@@ -30,6 +30,6 @@ CMAIN:
     ret
 
 section .data
-    mas1 Times 100 dd -2, 5, -2
-    mas2 Times 100 dd 5, -2, 5
+    mas1 Times 100 dd -2,5,-2
+    mas2 Times 100 dd 5,-2,5
     x1 dq 0

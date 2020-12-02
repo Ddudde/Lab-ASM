@@ -3,24 +3,25 @@
 section .text
 global CMAIN
 CMAIN:
-    mov ebx, [x]
-    mov eax, [y]
-    mov ecx, [z]
+    mov eax,[x]
+    mov ebx,[y]
+    mov ecx,[z]
     call min
     PRINT_STRING 'Минимальное число: '
-    PRINT_DEC 4, rez
+    PRINT_DEC 4, eax
     ret
-    min:cmp eax, ebx
-        jl L1
-        mov eax, ebx
-    L1: cmp eax, ecx
-        jl L2
-        mov eax, ecx
-    L2: mov [rez], eax
-    ret
-
+    min:
+        cmp eax,ebx
+        jb next
+        mov eax,ebx
+    next:
+        cmp eax,ecx
+        jb end
+        mov eax,ecx
+    end:
+        ret
+        
 section .data
-    x dd 3
-    y dd -5
-    z dd 3
-    rez dd 0
+    x dd 5000000
+    y dd 3
+    z dd 10
